@@ -1,0 +1,159 @@
+C:\Users\yuliy> docker pull postgres
+Using default tag: latest
+latest: Pulling from library/postgres
+2d429b9e73a6: Download complete
+fae0bc27f45a: Download complete
+637539a522b5: Download complete
+c58210073ea0: Download complete
+5eaadf8c0964: Download complete
+a46125241e83: Download complete
+6d3d16629482: Download complete
+bc5e9b7132d3: Download complete
+6f797120cf60: Download complete
+63e9527d3d4d: Download complete
+08b0635ec300: Download complete
+e8429bf8c751: Download complete
+9f868a0e1b86: Download complete
+55a824e2a83b: Download complete
+Digest: sha256:163763c8afd28cae69035ce84b12d8180179559c747c0701b3cad17818a0dbc5
+Status: Downloaded newer image for postgres:latest
+docker.io/library/postgres:latest
+PS C:\Users\yuliy> docker run -d -p 5432:5432 --name d_cont d_img:latest
+a22ad3e60fbfff026a436fa87b6e49af32a8018ca2c7171879baba3d7dc86a46
+PS C:\Users\yuliy> docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS         PORTS
+         NAMES
+ a22ad3e60fbf   d_img:latest   "docker-entrypoint.s…"   8 minutes ago   Up 8 minutes   0.0.0.0:5432->5432/tcp   d_cont
+PS C:\Users\yuliy> docker exec -it d_cont psql -d dbname -U dbuser
+psql (17.1 (Debian 17.1-1.pgdg120+1))
+Type "help" for help.
+
+dbname=# \l
+                                                 List of databases
+   Name    | Owner  | Encoding | Locale Provider |  Collate   |   Ctype    | Locale | ICU Rules | Access privileges
+-----------+--------+----------+-----------------+------------+------------+--------+-----------+-------------------
+ dbname    | dbuser | UTF8     | libc            | en_US.utf8 | en_US.utf8 |        |           |
+ postgres  | dbuser | UTF8     | libc            | en_US.utf8 | en_US.utf8 |        |           |
+ template0 | dbuser | UTF8     | libc            | en_US.utf8 | en_US.utf8 |        |           | =c/dbuser        +
+           |        |          |                 |            |            |        |           | dbuser=CTc/dbuser
+ template1 | dbuser | UTF8     | libc            | en_US.utf8 | en_US.utf8 |        |           | =c/dbuser        +
+           |        |          |                 |            |            |        |           | dbuser=CTc/dbuser
+(4 rows)
+
+dbname=# \q
+PS C:\Users\yuliy> docker stop d_cont
+d_cont
+PS C:\Users\yuliy> docker rm d_cont
+d_cont
+PS C:\Users\yuliy> docker run -d -p 5432:5432 --name d_cont d_img:latest -v /d_data:/var/lib/postgresql/data
+447a58ba755734469c187745512575d38a1da19a332cdb72541a820069a7ee13
+
+
+PS C:\Users\yuliy\OneDrive\Рабочий стол\Новая папка> docker run -d -p 5432:5432 --name d_cont d_img:latest -v /d_data:/var/lib/postgresql/data
+5943f777eada5abb6e65124e0de6cba2a0ee436593e43f9e7ecd8bf39ee07429
+PS C:\Users\yuliy\OneDrive\Рабочий стол\Новая папка> docker run -d -p 5432:5432 --name d_cont d_img:latest -v /d_data:/var/lib/postgresql/data
+12287914e4c688e4fbbabc461f3f36d3ad4befc6d10101eb8f8c4d1c2c0ec222
+PS C:\Users\yuliy\OneDrive\Рабочий стол\Новая папка> docker run -d -p 5432:5432 --name d_cont d_img:latest /d_data:/var/lib/postgresql/data
+docker: Error response from daemon: Conflict. The container name "/d_cont" is already in use by container "12287914e4c688e4fbbabc461f3f36d3ad4befc6d10101eb8f8c4d1c2c0ec222". You have to remove (or rename) that container to be able to reuse that name.
+See 'docker run --help'.
+PS C:\Users\yuliy\OneDrive\Рабочий стол\Новая папка> docker run -d -p 5432:5432 --name d_cont d_img:latest /d_data:/var/lib/postgresql/data
+854692178b08a6d8272d68e68a0df76b68442b4c59f381723499ab922253af86
+PS C:\Users\yuliy\OneDrive\Рабочий стол\Новая папка> docker run -d -p 5432:5432 --name d_cont -v /d_data:/var/lib/postgresql/data d_img:latest
+docker: Error response from daemon: Conflict. The container name "/d_cont" is already in use by container "854692178b08a6d8272d68e68a0df76b68442b4c59f381723499ab922253af86". You have to remove (or rename) that container to be able to reuse that name.
+See 'docker run --help'.
+PS C:\Users\yuliy\OneDrive\Рабочий стол\Новая папка> mkdir -p /d_data
+
+
+    Каталог: C:\
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        16.11.2024     18:26                d_data
+
+
+PS C:\Users\yuliy\OneDrive\Рабочий стол\Новая папка> docker start d_cont
+d_cont
+PS C:\Users\yuliy\OneDrive\Рабочий стол\Новая папка> docker run -d -p 5432:5432 --name d_cont -v /d_data:/var/lib/postgresql/data d_img:latest
+3156123a8fdeee5504184ed13021f0567c6cc285c11944ee9d60de049385d05e
+PS C:\Users\yuliy\OneDrive\Рабочий стол\Новая папка> docker-compose up --build
+project name must not be empty
+PS C:\Users\yuliy\OneDrive\Рабочий стол\Новая папка> docker-compose up --build
+project name must not be empty
+PS C:\Users\yuliy\OneDrive\Рабочий стол\Новая папка> docker-compose -p my_project up --build
+[+] Running 1/1
+ ✔ dbpost Pulled                                                                                                   1.5s
+[+] Running 2/2
+ ✔ Network my_project_default     Created                                                                          0.1s
+ ✔ Container my_project-dbpost-1  Created                                                                          0.1s
+Attaching to dbpost-1
+Gracefully stopping... (press Ctrl+C again to force)
+Error response from daemon: driver failed programming external connectivity on endpoint my_project-dbpost-1 (cc2b3d4c34a3e2d416618c8beef628c2807845688eb03a5504531468d2af6c43): Bind for 0.0.0.0:5432 failed: port is already allocated
+PS C:\Users\yuliy\OneDrive\Рабочий стол\Новая папка> docker-compose -p my_project up --build
+[+] Running 1/1
+ ✔ Container my_project-dbpost-1  Recreated                                                                        0.1s
+Attaching to dbpost-1
+dbpost-1  | The files belonging to this database system will be owned by user "postgres".
+dbpost-1  | This user must also own the server process.
+dbpost-1  |
+dbpost-1  | The database cluster will be initialized with locale "en_US.utf8".
+dbpost-1  | The default database encoding has accordingly been set to "UTF8".
+dbpost-1  | The default text search configuration will be set to "english".
+dbpost-1  |
+dbpost-1  | Data page checksums are disabled.
+dbpost-1  |
+dbpost-1  | fixing permissions on existing directory /var/lib/postgresql/data ... ok
+dbpost-1  | creating subdirectories ... ok
+dbpost-1  | selecting dynamic shared memory implementation ... posix
+dbpost-1  | selecting default "max_connections" ... 100
+dbpost-1  | selecting default "shared_buffers" ... 128MB
+dbpost-1  | selecting default time zone ... Etc/UTC
+dbpost-1  | creating configuration files ... ok
+dbpost-1  | running bootstrap script ... ok
+dbpost-1  | performing post-bootstrap initialization ... ok
+dbpost-1  | syncing data to disk ... ok
+dbpost-1  |
+dbpost-1  |
+dbpost-1  | Success. You can now start the database server using:
+dbpost-1  |
+dbpost-1  |     pg_ctl -D /var/lib/postgresql/data -l logfile start
+dbpost-1  |
+dbpost-1  | initdb: warning: enabling "trust" authentication for local connections
+dbpost-1  | initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+dbpost-1  | waiting for server to start....2024-11-16 13:33:01.917 UTC [48] LOG:  starting PostgreSQL 17.1 (Debian 17.1-1.pgdg120+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
+dbpost-1  | 2024-11-16 13:33:01.920 UTC [48] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+dbpost-1  | 2024-11-16 13:33:01.928 UTC [51] LOG:  database system was shut down at 2024-11-16 13:33:01 UTC
+dbpost-1  | 2024-11-16 13:33:01.934 UTC [48] LOG:  database system is ready to accept connections
+dbpost-1  |  done
+dbpost-1  | server started
+dbpost-1  | CREATE DATABASE
+dbpost-1  |
+dbpost-1  |
+dbpost-1  | /usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/init.sql
+dbpost-1  | CREATE TABLE
+dbpost-1  | INSERT 0 3
+dbpost-1  |
+dbpost-1  |
+dbpost-1  | waiting for server to shut down...2024-11-16 13:33:02.132 UTC [48] LOG:  received fast shutdown request
+dbpost-1  | .2024-11-16 13:33:02.135 UTC [48] LOG:  aborting any active transactions
+dbpost-1  | 2024-11-16 13:33:02.136 UTC [48] LOG:  background worker "logical replication launcher" (PID 54) exited with exit code 1
+dbpost-1  | 2024-11-16 13:33:02.136 UTC [49] LOG:  shutting down
+dbpost-1  | 2024-11-16 13:33:02.139 UTC [49] LOG:  checkpoint starting: shutdown immediate
+dbpost-1  | 2024-11-16 13:33:02.381 UTC [49] LOG:  checkpoint complete: wrote 923 buffers (5.6%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.016 s, sync=0.218 s, total=0.246 s; sync files=302, longest=0.006 s, average=0.001 s; distance=4247 kB, estimate=4247 kB; lsn=0/190AC40, redo lsn=0/190AC40
+dbpost-1  | 2024-11-16 13:33:02.389 UTC [48] LOG:  database system is shut down
+dbpost-1  |  done
+dbpost-1  | server stopped
+dbpost-1  |
+dbpost-1  | PostgreSQL init process complete; ready for start up.
+dbpost-1  |
+dbpost-1  | 2024-11-16 13:33:02.463 UTC [1] LOG:  starting PostgreSQL 17.1 (Debian 17.1-1.pgdg120+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
+dbpost-1  | 2024-11-16 13:33:02.463 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+dbpost-1  | 2024-11-16 13:33:02.463 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+dbpost-1  | 2024-11-16 13:33:02.468 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+dbpost-1  | 2024-11-16 13:33:02.475 UTC [66] LOG:  database system was shut down at 2024-11-16 13:33:02 UTC
+dbpost-1  | 2024-11-16 13:33:02.480 UTC [1] LOG:  database system is ready to accept connections
+dbpost-1  | 2024-11-16 13:38:02.567 UTC [64] LOG:  checkpoint starting: time
+dbpost-1  | 2024-11-16 13:38:07.014 UTC [64] LOG:  checkpoint complete: wrote 47 buffers (0.3%); 0 WAL file(s) added, 0 removed, 0 recycled; write=4.419 s, sync=0.014 s, total=4.447 s; sync files=12, longest=0.005 s, average=0.002 s; distance=269 kB, estimate=269 kB; lsn=0/194E320, redo lsn=0/194E2C8
+Gracefully stopping... (press Ctrl+C again to force)
+unexpected EOF
+PS C:\Users\yuliy\OneDrive\Рабочий стол\Новая папка>
