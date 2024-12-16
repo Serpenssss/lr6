@@ -1,0 +1,23 @@
+Сборка образа:
+
+# Команда для сборки образа на основе Dockerfile
+docker build -t postgres_db_image:latest .
+Эта команда собирает Docker-образ с именем postgres_db_image:latest на основе Dockerfile, находящегося в текущем каталоге.
+
+Запуск контейнера с монтированием тома:
+
+# Команда для запуска контейнера с монтированием тома
+docker run -d -p 5432:5432 --name postgres_db_container -v /local_pg_data:/var/lib/postgresql/data postgres_db_image:latest
+Эта команда запускает контейнер с именем postgres_db_container на основе собранного образа postgres_db_image:latest. Порт 5432 на хосте привязывается к порту 5432 внутри контейнера. Том монтируется из локального каталога /local_pg_data в каталог /var/lib/postgresql/data внутри контейнера.
+
+Подключение к контейнеру с интерфейсом psql:
+
+# Команда для подключения к контейнеру с интерфейсом psql
+docker exec -it postgres_db_container psql -d postgres -U postgres
+Эта команда подключается к контейнеру postgres_db_container и запускает оболочку psql для взаимодействия с базой данных. Подключение осуществляется к базе данных postgres под пользователем postgres.
+
+# Команда для создания docker-контейнера с томом (volume) на основе docker-образа:
+docker run --rm --name test -e POSTGRES_PASSWORD=test –p 5432:5432 -v /data:/var/lib/postgresql/data -d postgres 
+
+# Команда для запуска контейнера с интерфейсом psql для внесения новых данных в БД:
+docker exec -it d_cont psql -d dbname -U dbuser
